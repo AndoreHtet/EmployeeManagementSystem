@@ -14,4 +14,5 @@ VALUES
     (1, 'HR', 'Human Resources', 'Yangon', NOW(), NOW()),
     (2, 'IT', 'Information Technology', 'Mandalay', NOW(), NOW()),
     (3, 'FIN', 'Finance', 'Naypyidaw', NOW(), NOW()),
-    (4, 'MKT', 'Marketing', 'Yangon', NOW(), NOW());
+    (4, 'MKT', 'Marketing', 'Yangon', NOW(), NOW()),
+    (5, 'SALE','Sale','Yangon',NOW(),NOW());
