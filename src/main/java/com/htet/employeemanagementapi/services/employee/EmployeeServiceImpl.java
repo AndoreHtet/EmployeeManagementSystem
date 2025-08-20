@@ -1,16 +1,20 @@
-package com.htet.employeemanagementapi.services;
+package com.htet.employeemanagementapi.services.employee;
 
 import com.htet.employeemanagementapi.dto.employee.EmployeeDTO;
 import com.htet.employeemanagementapi.dto.employee.EmployeeSearchDTO;
 import com.htet.employeemanagementapi.dto.searchData.DataTableResDTO;
 import com.htet.employeemanagementapi.entities.Employee;
+import com.htet.employeemanagementapi.exceptions.LoginUserNotFoundException;
 import com.htet.employeemanagementapi.repositories.EmployeeRepo;
+import com.htet.employeemanagementapi.services.DefaultDataTableService;
 import com.htet.employeemanagementapi.util.CommonUtil;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -47,7 +51,15 @@ public class EmployeeServiceImpl implements EmployeeService{
         return new DataTableResDTO<>(employeeDtoList, employeeSearchDTO);
     }
 
+    @Override
+    public String getLoginUserEmail() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
 
+        if (auth == null || auth instanceof AnonymousAuthenticationToken){
+            throw new LoginUserNotFoundException("You need to login first!");
+        }
+        return auth.getName();
+    }
 
 
     private Specification<Employee> getSpecification(EmployeeSearchDTO employeeSearchDTO) {

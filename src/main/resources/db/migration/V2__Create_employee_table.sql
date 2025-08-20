@@ -6,8 +6,8 @@ create table employee (
                           birth_date date,
                           phone_number varchar(255),
                           department_id bigint,
-                          created_at datetime,
-                          updated_at datetime,
+                          created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                           primary key (id),
                           constraint fk_employee_department
                               foreign key (department_id)

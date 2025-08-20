@@ -3,8 +3,8 @@ create table department (
                             code varchar(255),
                             name varchar(255),
                             region varchar(255),
-                            created_at datetime,
-                            updated_at datetime,
+                            created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                            updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                             primary key (id)
 );
 
