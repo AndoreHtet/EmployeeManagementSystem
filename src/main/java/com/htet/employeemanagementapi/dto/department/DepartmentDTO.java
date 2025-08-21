@@ -1,0 +1,25 @@
+package com.htet.employeemanagementapi.dto.department;
+
+import com.htet.employeemanagementapi.entities.Department;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+public class DepartmentDTO {
+
+    private Long id;
+    private String code;
+    private String name;
+    private String region;
+
+
+    public DepartmentDTO(Department entity){
+        this.id = entity.getId();
+        this.code = entity.getCode();
+        this.name = entity.getName();
+        this.region = entity.getRegion();
+    }
+
+}
