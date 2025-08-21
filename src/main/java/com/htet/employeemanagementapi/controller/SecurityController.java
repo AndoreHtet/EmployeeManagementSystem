@@ -48,7 +48,7 @@ public class SecurityController {
         return CustomApiResponse.success(new LoginResult(accessToken,refreshToken));
     }
 
-    @PostMapping("refreshToken")
+    @PostMapping("/refreshToken")
     public CustomApiResponse<LoginResult> refreshToken(@RequestBody @Valid RefreshTokenReq refreshTokenReq, BindingResult result){
         if (result.hasErrors()){
             throw new DtoValidationException(result);

@@ -1,6 +1,5 @@
 package com.htet.employeemanagementapi.dto.roleAccess;
 
-import com.htet.employeemanagementapi.entities.Role;
 import com.htet.employeemanagementapi.entities.RoleAccess;
 import com.htet.employeemanagementapi.util.constant.CrudOperation;
 import com.htet.employeemanagementapi.util.constant.RequestMethod;
@@ -33,7 +32,7 @@ public class RoleAccessDTO {
         this.requestMethod = entity.getRequestMethod();
         this.crudOperation = entity.getCrudOperation();
         this.description = entity.getDescription();
-        this.created = entity.getCreated();
+        this.created = entity.getCreatedAt();
         this.updatedAt = entity.getUpdatedAt();
     }
 

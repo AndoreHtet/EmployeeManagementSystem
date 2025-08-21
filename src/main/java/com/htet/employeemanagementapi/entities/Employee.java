@@ -24,6 +24,9 @@ public class Employee extends BaseField implements Serializable {
     @Serial
     private static final long serialVersionUID = 5207483492648808468L;
 
+    @Column(name = "employee_id")
+    private String employeeId;
+
     @Column(name = "name")
     private String name;
 

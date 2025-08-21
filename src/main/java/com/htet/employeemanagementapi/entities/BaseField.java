@@ -2,6 +2,7 @@ package com.htet.employeemanagementapi.entities;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -12,25 +13,27 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@RequiredArgsConstructor
 @MappedSuperclass
 @EntityListeners(value = AuditingEntityListener.class)
-public abstract class BaseField {
+public class BaseField {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    protected Long id;
 
     @CreatedDate
     @Column(name = "created_at")
-    private LocalDateTime created;
+    protected LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    protected LocalDateTime updatedAt;
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, created, updatedAt);
+        return Objects.hash(id, createdAt, updatedAt);
     }
 
     @Override
@@ -38,6 +41,6 @@ public abstract class BaseField {
         if (this == obj) return  true;
         if (obj == null || getClass() != obj.getClass()) return  false;
         BaseField baseField = (BaseField) obj;
-        return Objects.equals(id, baseField.id) && Objects.equals(created, baseField.created) && Objects.equals(updatedAt, baseField.updatedAt);
+        return Objects.equals(id, baseField.id) && Objects.equals(createdAt, baseField.createdAt) && Objects.equals(updatedAt, baseField.updatedAt);
     }
 }

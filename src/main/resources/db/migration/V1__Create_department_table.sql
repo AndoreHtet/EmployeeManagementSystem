@@ -1,3 +1,4 @@
+
 create table department (
                             id bigint not null auto_increment,
                             code varchar(255),

@@ -22,7 +22,7 @@ public class RoleAccess extends BaseField implements java.io.Serializable{
     @Serial
     private static final long serialVersionUID = -3236067342532617314L;
 
-    @Column(length = 45, unique = true,nullable = false,name = "name")
+    @Column(length = 45,nullable = false,name = "name")
     private String name;
 
     @Column(nullable = false, name = "url")

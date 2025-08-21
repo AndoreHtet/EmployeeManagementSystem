@@ -9,7 +9,7 @@ CREATE TABLE role (
 -- ROLE_ACCESS
 CREATE TABLE role_access (
                              id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                             name VARCHAR(45) NOT NULL UNIQUE,
+                             name VARCHAR(45) NOT NULL,
                              url VARCHAR(255) NOT NULL,
                              request_method VARCHAR(20) NOT NULL,   -- must match your enum values (e.g., GET, POST)
                              crud_operation VARCHAR(20) NOT NULL,   -- must match your enum values (e.g., READ, CREATE)
