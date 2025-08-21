@@ -3,6 +3,7 @@ package com.htet.employeemanagementapi.dto.employee;
 import com.htet.employeemanagementapi.entities.Employee;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +26,9 @@ public class EmployeeFormDTO {
     private String email;
     @NotBlank(message = "Gender is required")
     private String gender;
-    private LocalDate birthDate;
+    @NotBlank(message = "Birth date is required")
+    @Pattern(regexp = "^\\d{1,2}/\\d{1,2}/\\d{4}$", message = "Birthdate must be in day/month/year format (e.g., 30/7/2025)")
+    private String birthDate;
     private String phoneNumber;
     @NotNull(message = "Department is required")
     @Positive(message = "Invalid Department Id!")
@@ -37,7 +40,7 @@ public class EmployeeFormDTO {
         this.name = employee.getName();
         this.email = employee.getEmail();
         this.gender = employee.getGender().toString();
-        this.birthDate = employee.getBirthDate();
+        this.birthDate = String.valueOf(employee.getBirthDate());
         this.phoneNumber = employee.getPhoneNumber();
         this.departmentId = employee.getDepartment().getId();
     }

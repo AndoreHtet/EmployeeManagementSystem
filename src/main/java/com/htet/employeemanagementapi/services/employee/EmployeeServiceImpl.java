@@ -28,7 +28,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -92,6 +95,12 @@ public class EmployeeServiceImpl implements EmployeeService {
             employee.setGender(Gender.valueOf(employeeDTO.getGender()));
             employee.setCreatedAt(LocalDateTime.now());
             employee.setUpdatedAt(LocalDateTime.now());
+        }
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+            employee.setBirthDate(LocalDate.parse(employeeDTO.getBirthDate(), formatter));
+        } catch (DateTimeParseException e) {
+            throw new BadRequestException("Invalid birthdate format. Please use day/month/year format (e.g., 30/7/2025)");
         }
         employee.setPhoneNumber(employeeDTO.getPhoneNumber());
         employee.setName(employeeDTO.getName());
