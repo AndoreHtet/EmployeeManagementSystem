@@ -16,7 +16,7 @@ import java.util.function.Function;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class RoleAccessServiceImpl implements RoleAccessService{
+public class RoleAccessServiceImpl implements RoleAccessService {
 
     private final RoleAccessRepo roleAccessRepo;
 

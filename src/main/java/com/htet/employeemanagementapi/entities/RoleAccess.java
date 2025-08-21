@@ -17,12 +17,12 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "role_access")
-public class RoleAccess extends BaseField implements java.io.Serializable{
+public class RoleAccess extends BaseField implements java.io.Serializable {
 
     @Serial
     private static final long serialVersionUID = -3236067342532617314L;
 
-    @Column(length = 45,nullable = false,name = "name")
+    @Column(length = 45, nullable = false, name = "name")
     private String name;
 
     @Column(nullable = false, name = "url")
@@ -32,7 +32,7 @@ public class RoleAccess extends BaseField implements java.io.Serializable{
     @Enumerated(EnumType.STRING)
     private RequestMethod requestMethod;
 
-    @Column(nullable = false , name = "crud_operation")
+    @Column(nullable = false, name = "crud_operation")
     @Enumerated(EnumType.STRING)
     private CrudOperation crudOperation;
 

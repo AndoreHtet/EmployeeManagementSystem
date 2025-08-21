@@ -35,22 +35,24 @@ public class SecurityController {
 
 
     @PostMapping("/login")
-    public CustomApiResponse<LoginResult> signIn(@RequestBody @Valid LoginReq loginReq, BindingResult result){
-        if (result.hasErrors()){
+    public CustomApiResponse<LoginResult> signIn(@RequestBody @Valid LoginReq loginReq, BindingResult result) {
+        log.info("Login Request: {}", loginReq);
+        if (result.hasErrors()) {
             throw new DtoValidationException(result);
         }
 
         var authentication = authenticationManager
                 .authenticate(UsernamePasswordAuthenticationToken.unauthenticated(loginReq.email(), loginReq.password()));
-        var accessToken = tokenProvider.generateToken(authentication,false);
+        var accessToken = tokenProvider.generateToken(authentication, false);
         var refreshToken = tokenProvider.generateToken(authentication, true);
         log.info("Login Successful: {} ", loginReq.email());
-        return CustomApiResponse.success(new LoginResult(accessToken,refreshToken));
+        return CustomApiResponse.success(new LoginResult(accessToken, refreshToken));
     }
 
     @PostMapping("/refreshToken")
-    public CustomApiResponse<LoginResult> refreshToken(@RequestBody @Valid RefreshTokenReq refreshTokenReq, BindingResult result){
-        if (result.hasErrors()){
+    public CustomApiResponse<LoginResult> refreshToken(@RequestBody @Valid RefreshTokenReq refreshTokenReq, BindingResult result) {
+        log.info("Refresh Token Request: {}", refreshTokenReq);
+        if (result.hasErrors()) {
             throw new DtoValidationException(result);
         }
 
@@ -59,13 +61,14 @@ public class SecurityController {
             var email = auth.getName();
             userService.getUserDetailByEmail(email).orElseThrow(() -> new WrongRefreshTokenExceptions("Wrong Refresh Token!"));
 
-            if (auth.isAuthenticated()){
+            if (auth.isAuthenticated()) {
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
-            var accessToken =  jwtTokenProvider.generateToken(auth,false);
-            var refreshToken = jwtTokenProvider.generateToken(auth,true);
-            return CustomApiResponse.success(new LoginResult(accessToken,refreshToken));
-        }catch (ExpiredJwtException e){
+            var accessToken = jwtTokenProvider.generateToken(auth, false);
+            var refreshToken = jwtTokenProvider.generateToken(auth, true);
+            log.info("Refresh token successful: {} ", email);
+            return CustomApiResponse.success(new LoginResult(accessToken, refreshToken));
+        } catch (ExpiredJwtException e) {
             throw new ExpiredRefreshTokenExceptions("Token Expired! Please login again");
         }
     }

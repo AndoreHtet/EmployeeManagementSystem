@@ -17,17 +17,14 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class ApiSecurityExceptionResolver implements AuthenticationEntryPoint, AccessDeniedHandler {
     private final HandlerExceptionResolver handlerExceptionResolver;
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
-        response.setContentType("application/json");
-        response.getWriter().write("{\"status\":401,\"error\":\"Unauthorized\",\"message\":\"" + authException.getMessage() + "\"}");
+        handlerExceptionResolver.resolveException(request, response, null, authException);
     }
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN); // 403
-        response.setContentType("application/json");
-        response.getWriter().write("{\"status\":403,\"error\":\"Forbidden\",\"message\":\"" + accessDeniedException.getMessage() + "\"}");
+        handlerExceptionResolver.resolveException(request, response, null, accessDeniedException);
     }
 }

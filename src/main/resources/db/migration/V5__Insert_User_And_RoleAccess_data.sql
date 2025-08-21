@@ -9,7 +9,9 @@ INSERT INTO role_access (name, url, request_method, crud_operation, description)
     ('ADMIN','/api/employee/create-employee','POST','CREATE','Register Employee'),
     ('ADMIN', '/api/employee/edit-employee','POST','UPDATE','Edit Employee'),
     ('ADMIN','/api/employee/employee-detail','GET','READ','Employee Detail'),
-    ('ADMIN','/api/employee/delete-employee','DELETE','DELETE','Delete Employee');
+    ('ADMIN','/api/employee/delete-employee','DELETE','DELETE','Delete Employee'),
+    ('ADMIN','/api/department/create-department','POST','CREATE','Create Department'),
+    ('ADMIN','/api/department/get-department-list','GET','READ','Get All Department List');
 
 -- Link both roles to the access rule
 INSERT INTO role_role_access (role_id, role_access_id)

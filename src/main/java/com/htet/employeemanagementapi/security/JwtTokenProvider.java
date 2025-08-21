@@ -33,20 +33,20 @@ public class JwtTokenProvider {
 
 
     @PostConstruct
-    private void postConstruct(){
+    private void postConstruct() {
         var bytes = Base64.getDecoder().decode(secret);
         secretKey = new SecretKeySpec(bytes, "HmacSHA512");
     }
 
-    public String generateToken(Authentication auth, boolean isRefreshToken){
-        if (auth != null && auth.isAuthenticated()){
+    public String generateToken(Authentication auth, boolean isRefreshToken) {
+        if (auth != null && auth.isAuthenticated()) {
             var issueAt = new Date();
             var calender = Calendar.getInstance();
             calender.setTime(issueAt);
 
-            if (isRefreshToken){
+            if (isRefreshToken) {
                 calender.add(Calendar.HOUR, refreshTokenLifeSpan);
-            }else {
+            } else {
                 calender.add(Calendar.MINUTE, tokenLifeSpan);
             }
             var role = auth.getAuthorities().stream()
@@ -57,15 +57,15 @@ public class JwtTokenProvider {
                     .issuer(issuer)
                     .issuedAt(issueAt)
                     .expiration(calender.getTime())
-                    .claim("role",role)
+                    .claim("role", role)
                     .signWith(secretKey)
                     .compact();
         }
         return null;
     }
 
-    public Authentication parseToken(String token){
-        if (!StringUtils.hasLength(token)){
+    public Authentication parseToken(String token) {
+        if (!StringUtils.hasLength(token)) {
             return null;
         }
 
@@ -76,8 +76,8 @@ public class JwtTokenProvider {
                 .parseSignedClaims(token);
 
         var email = jwt.getBody().getSubject();
-        var role = jwt.getPayload().get("role",String.class);
+        var role = jwt.getPayload().get("role", String.class);
         var authorities = List.of(new SimpleGrantedAuthority(role));
-        return UsernamePasswordAuthenticationToken.authenticated(email,null,authorities);
+        return UsernamePasswordAuthenticationToken.authenticated(email, null, authorities);
     }
 }

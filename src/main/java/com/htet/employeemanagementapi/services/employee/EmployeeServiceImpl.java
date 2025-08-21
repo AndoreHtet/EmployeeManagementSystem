@@ -37,7 +37,7 @@ import java.util.function.Function;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class EmployeeServiceImpl implements EmployeeService{
+public class EmployeeServiceImpl implements EmployeeService {
 
 
     private final EmployeeRepo employeeRepo;
@@ -60,7 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         var spec = getSpecification(employeeSearchDTO);
 
         var employeeList = employeeRepo.findAll(spec, pageable);
-        var employeeDtoList = convertIntoDto(employeeSearchDTO,employeeList.getContent());
+        var employeeDtoList = convertIntoDto(employeeSearchDTO, employeeList.getContent());
         employeeSearchDTO.setRecordsTotal(employeeRepo.count());
         employeeSearchDTO.setRecordsFiltered(employeeList.getTotalElements());
 
@@ -71,7 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     public String getLoginUserEmail() {
         var auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth == null || auth instanceof AnonymousAuthenticationToken){
+        if (auth == null || auth instanceof AnonymousAuthenticationToken) {
             throw new LoginUserNotFoundException("You need to login first!");
         }
         return auth.getName();
@@ -82,12 +82,12 @@ public class EmployeeServiceImpl implements EmployeeService{
     public void manageEmployee(EmployeeFormDTO employeeDTO) throws BadRequestException {
         boolean isEdit = false;
         Employee employee = new Employee();
-        if (CommonUtil.validLong(employeeDTO.getId())){
+        if (CommonUtil.validLong(employeeDTO.getId())) {
             isEdit = true;
             employee = employeeRepo.findById(employeeDTO.getId())
                     .orElseThrow(() -> new BadRequestException("Employee doesn't exist"));
             employee.setUpdatedAt(LocalDateTime.now());
-        }else{
+        } else {
             employee.setEmployeeId(generateEmployeeId());
             employee.setGender(Gender.valueOf(employeeDTO.getGender()));
             employee.setCreatedAt(LocalDateTime.now());
@@ -103,9 +103,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 
 
         employeeRepo.save(employee);
-        if (isEdit == true){
+        if (isEdit == true) {
             log.info("Employee updated successfully!");
-        }else {
+        } else {
             log.info("Saved Employee: {} ", employee);
         }
     }
@@ -121,7 +121,7 @@ public class EmployeeServiceImpl implements EmployeeService{
         String prefix = "EMP-";
 
         var lastEmployee = employeeRepo.findTopByOrderByEmployeeIdDesc();
-        if (lastEmployee.isEmpty()){
+        if (lastEmployee.isEmpty()) {
             return prefix + "0001";
         }
 
@@ -129,10 +129,10 @@ public class EmployeeServiceImpl implements EmployeeService{
         String lastEmployeeId = lastEmployeeObj.getEmployeeId();
 
         int number = 0;
-        if (lastEmployeeId != null && lastEmployeeId.startsWith(prefix)){
-            try{
+        if (lastEmployeeId != null && lastEmployeeId.startsWith(prefix)) {
+            try {
                 number = Integer.parseInt(lastEmployeeId.substring(prefix.length()));
-            }catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 log.error("Error while parsing employee id: {}", lastEmployeeId);
             }
         }
@@ -150,9 +150,9 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     public void deleteEmployee(Long id) throws BadRequestException {
         Employee employee = employeeRepo.findById(id).orElseThrow();
-        if (!isEmployeeExist(id)){
+        if (!isEmployeeExist(id)) {
             throw new BadRequestException("Employee doesn't exist!");
-        }else{
+        } else {
             employeeRepo.deleteById(id);
             log.info("Employee with employeeId {} is deleted successfully!", employee.getEmployeeId());
         }
@@ -178,13 +178,13 @@ public class EmployeeServiceImpl implements EmployeeService{
         };
     }
 
-    private String convertToColumnName(Integer columnIndex, String columnName){
+    private String convertToColumnName(Integer columnIndex, String columnName) {
         return columnName == null || columnName.isBlank()
                 ? convertOrderColumnIndexToColumnName(columnIndex)
                 : columnName;
     }
 
-    private List<EmployeeDTO> convertIntoDto(EmployeeSearchDTO searchDTO, List<Employee> employeeList){
+    private List<EmployeeDTO> convertIntoDto(EmployeeSearchDTO searchDTO, List<Employee> employeeList) {
         AtomicInteger rowNo = new AtomicInteger(searchDTO.getStart() + 1);
         return employeeList.stream()
                 .map(EmployeeDTO::new)
@@ -194,15 +194,13 @@ public class EmployeeServiceImpl implements EmployeeService{
                 }).toList();
     }
 
-    private String convertOrderColumnIndexToColumnName(int index){
+    private String convertOrderColumnIndexToColumnName(int index) {
         return switch (index) {
             case 2 -> "name";
             case 3 -> "department.name";
             default -> "created_at";
         };
     }
-
-
 
 
 }

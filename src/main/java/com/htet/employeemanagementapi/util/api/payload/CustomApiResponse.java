@@ -19,8 +19,12 @@ public class CustomApiResponse<T>{
         return new CustomApiResponse<>(Status.SUCCESS, LocalDateTime.now(), data);
     }
 
-    public static <T> CustomApiResponse<T> badRequest(T data){
+    public static <T> CustomApiResponse<T> badRequest(T data) {
         return new CustomApiResponse<>(Status.BAD_REQUEST, LocalDateTime.now(), data);
+    }
+
+    public static <T> CustomApiResponse<T> validationError(T data) {
+        return new CustomApiResponse<>(Status.VALIDATION_ERROR, LocalDateTime.now(), data);
     }
 
     public static <T> CustomApiResponse<T> authenticationError(T data) {
@@ -53,9 +57,10 @@ public class CustomApiResponse<T>{
 
 
 
-    public enum Status{
+    enum Status {
         SUCCESS,
         BAD_REQUEST,
+        VALIDATION_ERROR,
         AUTHENTICATION_FAILURE,
         ACCESS_DENIED,
         WRONG_REFRESH_TOKEN,

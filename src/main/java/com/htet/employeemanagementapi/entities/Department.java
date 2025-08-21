@@ -19,14 +19,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "department")
-public class Department extends BaseField implements Serializable{
+public class Department extends BaseField implements Serializable {
 
     private String code;
 
     private String name;
 
     private String region;
-
 
 
     public Department(Long id) {

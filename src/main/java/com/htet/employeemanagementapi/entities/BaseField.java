@@ -38,8 +38,8 @@ public class BaseField {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return  true;
-        if (obj == null || getClass() != obj.getClass()) return  false;
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
         BaseField baseField = (BaseField) obj;
         return Objects.equals(id, baseField.id) && Objects.equals(createdAt, baseField.createdAt) && Objects.equals(updatedAt, baseField.updatedAt);
     }

@@ -31,10 +31,10 @@ public class SecurityConfig {
     private final JwtTokenFilter jwtTokenFilter;
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http, AuthorizationManager<RequestAuthorizationContext> authorizationManager)throws Exception{
+    SecurityFilterChain filterChain(HttpSecurity http, AuthorizationManager<RequestAuthorizationContext> authorizationManager) throws Exception {
         http.authorizeHttpRequests(
                 req -> {
-                    req.requestMatchers("/login","/refreshToken").permitAll();
+                    req.requestMatchers("/login", "/refreshToken").permitAll();
                     req.anyRequest().access(authorizationManager);
                 }
         );
@@ -52,19 +52,19 @@ public class SecurityConfig {
     }
 
     @Bean
-    PasswordEncoder passwordEncoder (){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    AuthenticationManager authenticationManager(HttpSecurity httpSecurity, PasswordEncoder passwordEncoder)throws Exception{
+    AuthenticationManager authenticationManager(HttpSecurity httpSecurity, PasswordEncoder passwordEncoder) throws Exception {
         var builder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
         builder.authenticationProvider(authenticationProvider(passwordEncoder));
         return builder.build();
     }
 
     @Bean
-    DaoAuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder){
+    DaoAuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder) {
         var provider = new DaoAuthenticationProvider(passwordEncoder);
         provider.setUserDetailsService(userDetailService);
         return provider;

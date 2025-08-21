@@ -15,4 +15,11 @@ public class DepartmentDTO {
     private String region;
 
 
+    public DepartmentDTO(Department entity){
+        this.id = entity.getId();
+        this.code = entity.getCode();
+        this.name = entity.getName();
+        this.region = entity.getRegion();
+    }
+
 }

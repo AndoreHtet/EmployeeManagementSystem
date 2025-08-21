@@ -23,19 +23,19 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        try{
+        try {
             var authToken = request.getHeader("Authorization");
             var TOKEN_PREFIX = "Bearer ";
-            if (StringUtils.hasLength(authToken) && authToken.startsWith(TOKEN_PREFIX)){
+            if (StringUtils.hasLength(authToken) && authToken.startsWith(TOKEN_PREFIX)) {
                 var token = authToken.substring(TOKEN_PREFIX.length());
                 var authentication = tokenProvider.parseToken(token);
-                if (authentication != null && authentication.isAuthenticated()){
+                if (authentication != null && authentication.isAuthenticated()) {
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
             filterChain.doFilter(request, response);
-        }catch (ExpiredJwtException e){
-            handlerExceptionResolver.resolveException(request,response,null,e);
+        } catch (ExpiredJwtException e) {
+            handlerExceptionResolver.resolveException(request, response, null, e);
         }
 
     }

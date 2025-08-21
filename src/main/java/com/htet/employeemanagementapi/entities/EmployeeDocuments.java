@@ -14,7 +14,8 @@ import java.math.BigDecimal;
 
 @Entity
 @Table(name = "employee_document")
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmployeeDocuments extends BaseField implements Serializable {
@@ -32,7 +33,6 @@ public class EmployeeDocuments extends BaseField implements Serializable {
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
-
 
 
 }

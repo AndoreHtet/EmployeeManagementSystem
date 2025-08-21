@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RoleServiceImpl implements RoleService{
+public class RoleServiceImpl implements RoleService {
     @Override
     public String getCurrentRoleName(Authentication auth) {
         return getRoleNameFromAuthentication(auth);
     }
 
-    private String getRoleNameFromAuthentication(Authentication authentication){
+    private String getRoleNameFromAuthentication(Authentication authentication) {
         return authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).findFirst()
                 .orElseThrow(RoleNotFoundException::new);
     }

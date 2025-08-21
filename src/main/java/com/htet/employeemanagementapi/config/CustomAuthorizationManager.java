@@ -12,6 +12,7 @@ import org.springframework.security.web.access.intercept.RequestAuthorizationCon
 import org.springframework.stereotype.Component;
 
 import java.util.function.Supplier;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -22,7 +23,6 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
     private final RoleAccessService roleAccessService;
 
 
-
     @Override
     public AuthorizationDecision check(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
         var auth = authentication.get();
@@ -30,7 +30,7 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
         String requestUrl = httpRequest.getRequestURI();
         String requestMethod = httpRequest.getMethod();
 
-        if (auth instanceof AnonymousAuthenticationToken){
+        if (auth instanceof AnonymousAuthenticationToken) {
             return new AuthorizationDecision(false);
         }
         if (auth.isAuthenticated()) {
@@ -46,13 +46,13 @@ public class CustomAuthorizationManager implements AuthorizationManager<RequestA
                 return new AuthorizationDecision(true);
             }
         }
-            return new AuthorizationDecision(false);
+        return new AuthorizationDecision(false);
 
-        }
+    }
 
     @Override
     public void verify(Supplier<Authentication> authentication, RequestAuthorizationContext object) {
         AuthorizationManager.super.verify(authentication, object);
     }
-    }
+}
 
