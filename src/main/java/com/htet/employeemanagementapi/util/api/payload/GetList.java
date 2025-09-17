@@ -27,4 +27,5 @@ public class GetList {
 
     @NotBlank(message = "Sorting Column is needed!")
     private String columnName;
+
 }
