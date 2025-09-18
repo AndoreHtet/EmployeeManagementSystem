@@ -20,7 +20,7 @@ FROM role r CROSS JOIN role_access ra
 WHERE r.name IN ('ADMIN', 'MANAGER') AND ra.name = 'ADMIN';
 
 -- Users (use real hashed passwords in practice)
-INSERT INTO user (name, email, password, user_role_id)
-SELECT 'Admin',  'admin@gmail.com', '$2a$12$hwnK4aATbgovplf17zeN0.jI5lbh0ISB9C3uemvdNmKFbLy5AhHx2', id FROM role WHERE name = 'ADMIN';
-INSERT INTO user (name, email, password, user_role_id)
-SELECT 'Manager',  'manager@gmail.com',   '$2a$12$hwnK4aATbgovplf17zeN0.jI5lbh0ISB9C3uemvdNmKFbLy5AhHx2', id FROM role WHERE name = 'MANAGER';
+INSERT INTO user (name, email, password, user_role_id, opt_code, reset_token_expiration)
+SELECT 'Admin',  'admin@gmail.com', '$2a$12$hwnK4aATbgovplf17zeN0.jI5lbh0ISB9C3uemvdNmKFbLy5AhHx2', id,NULL,NULL FROM role WHERE name = 'ADMIN';
+INSERT INTO user (name, email, password, user_role_id, opt_code, reset_token_expiration)
+SELECT 'Manager',  'manager@gmail.com',   '$2a$12$hwnK4aATbgovplf17zeN0.jI5lbh0ISB9C3uemvdNmKFbLy5AhHx2', id,NULL,NULL FROM role WHERE name = 'MANAGER';

@@ -13,5 +13,8 @@ public interface UserService {
 
     TableResponse<UserDetail> userList(UserSearchDTO searchDTO);
 
+    void resetPassword(String email,String optCode, String password);
+
+    void redeemPassword(String email);
 
 }

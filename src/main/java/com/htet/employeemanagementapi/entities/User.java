@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.Instant;
+
 @Getter
 @Setter
 @Entity
@@ -22,9 +24,14 @@ public class User extends BaseField {
 
     @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "opt_code")
+    private String optCode;
+    @Column(name = "reset_token_expiration")
+    private Instant resetTokenExpiration;
 
     @JoinColumn(name = "user_role_id", nullable = false,
             foreignKey = @ForeignKey(name = "fk_user_role"))
     @ManyToOne(fetch = FetchType.LAZY)
     private Role role;
+
 }
