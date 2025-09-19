@@ -11,6 +11,7 @@ import com.htet.employeemanagementapi.util.handler.BindingResultHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.BindingResultUtils;
@@ -42,7 +43,7 @@ public class UserController {
     }
 
     @PostMapping("/reset-password")
-    public ResponseEntity<Map<String, String>> resetPassword(@RequestBody @Valid UserResetPasswordDTO userResetPasswordDTO, BindingResult result){
+    public ResponseEntity<Map<String, String>> resetPassword(@RequestBody @Valid UserResetPasswordDTO userResetPasswordDTO, BindingResult result) throws BadRequestException {
         userService.resetPassword(userResetPasswordDTO.email(),
                 userResetPasswordDTO.optCode(),
                 userResetPasswordDTO.password());

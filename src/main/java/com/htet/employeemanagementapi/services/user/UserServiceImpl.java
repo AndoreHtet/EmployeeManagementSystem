@@ -11,6 +11,7 @@ import com.htet.employeemanagementapi.util.api.payload.TableResponse;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -73,18 +74,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void resetPassword(String email,String optCode, String password) {
+    public void resetPassword(String email,String optCode, String password) throws BadRequestException {
         var user = userRepo.findByEmail(email)
                 .orElseThrow(
-                        () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not found")
+                        () -> new BadRequestException("User not found!")
                 );
 
         if (user.getResetTokenExpiration().isBefore(Instant.now())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OPT code is expired");
+            throw new BadRequestException("OPT Code is expired!");
         }
 
         if (!user.getOptCode().equals(optCode)){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "OPT code is wrong");
+            throw new BadRequestException("OPT Code does not match!");
         }
         String encodedPassword = bCryptPasswordEncoder.encode(password);
         user.setPassword(encodedPassword);
