@@ -81,11 +81,11 @@ public class UserServiceImpl implements UserService {
                 );
 
         if (user.getResetTokenExpiration().isBefore(Instant.now())){
-            throw new BadRequestException("OPT Code is expired!");
+            throw new BadRequestException("OTP Code is expired!");
         }
 
         if (!user.getOptCode().equals(optCode)){
-            throw new BadRequestException("OPT Code does not match!");
+            throw new BadRequestException("OTP Code does not match!");
         }
         String encodedPassword = bCryptPasswordEncoder.encode(password);
         user.setPassword(encodedPassword);
